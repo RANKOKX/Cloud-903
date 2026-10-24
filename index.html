@@ -3,55 +3,101 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mon Stockage</title>
+<title>Stockage</title>
 <style>
-:root{--bg:#eef1f3;--card:#fff;--tx:#0f1c26;--mut:#61717e;--ac:#0f766e;--onac:#fff;--bd:#d5dde2;--ok:#16a34a}
-[data-theme=dark]{--bg:#0c161d;--card:#13222c;--tx:#e6eef2;--mut:#86a0ae;--ac:#2dd4bf;--onac:#04211d;--bd:#223644;--ok:#4ade80}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--bg);border-bottom:1px solid var(--bd)}
-h1{font-size:18px;margin:0;font-weight:650}
-h3{margin:0 0 12px}
-a{color:var(--ac)}
-button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:8px 14px}
-button:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-button.p{background:var(--ac);border-color:var(--ac);color:var(--onac);font-weight:600}
-button.i{width:42px;height:42px;padding:0;font-size:18px;position:relative}
-.badge{position:absolute;top:-5px;right:-5px;background:var(--ac);color:var(--onac);border-radius:99px;font-size:11px;font-weight:700;padding:1px 6px}
-main{max-width:760px;margin:0 auto;padding:20px 16px 80px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px 16px;margin-bottom:12px}
-.row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--bd)}
-.row:last-child{border:0}
+:root{
+  --bg:#eceef1;--card:rgba(255,255,255,.66);--solid:#fff;--tx:#17191c;--mut:#6a717b;--bd:rgba(20,24,30,.09);
+  --hi:rgba(255,255,255,.9);--sh:0 10px 30px rgba(20,24,30,.08);--ac:#3b4048;--onac:#fff;--ok:#2f9e5b;--bad:#c2372b;
+  --s1:#fff;--s2:#d6dae0;color-scheme:light;
+}
+[data-theme=dark]{
+  --bg:#0d0e10;--card:rgba(36,39,45,.58);--solid:#1d2024;--tx:#eceef1;--mut:#8d949e;--bd:rgba(255,255,255,.09);
+  --hi:rgba(255,255,255,.14);--sh:0 10px 30px rgba(0,0,0,.45);--onac:#0d0f12;--s1:#262a31;--s2:#15171a;color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--tx);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:radial-gradient(800px 520px at 12% -8%,var(--s1) 0,transparent 62%),radial-gradient(760px 560px at 100% 38%,var(--s2) 0,transparent 60%),var(--bg);background-attachment:fixed}
+h1{font-size:17px;font-weight:600;margin:0;letter-spacing:-.01em}
+h2{font-size:13px;font-weight:600;color:var(--mut);margin:24px 4px 8px}
+b{font-weight:600}
+.glass{background:var(--card);-webkit-backdrop-filter:blur(24px) saturate(1.7);backdrop-filter:blur(24px) saturate(1.7);border:1px solid var(--bd);box-shadow:inset 0 1px 0 var(--hi),var(--sh)}
+header{position:sticky;top:0;z-index:5;max-width:780px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 4px}
+.hb{display:flex;align-items:center;gap:6px;border-radius:20px;padding:6px}
+.hb h1{flex:1;padding:0 8px}
+main{max-width:780px;margin:0 auto;padding:12px 16px calc(110px + env(safe-area-inset-bottom,0px))}
+.card{background:var(--card);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--bd);border-radius:18px;padding:4px 16px;margin-bottom:10px;box-shadow:inset 0 1px 0 var(--hi)}
+.card.tap{cursor:pointer;padding-top:2px;padding-bottom:6px}
+.row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.row:last-child,.card.tap .row{border-bottom:0}
 .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mut{color:var(--mut);font-size:14px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--mut);flex:none}
-.dot.on{background:var(--ok)}
-.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;margin:6px 0 10px}
-.bar i{display:block;height:100%;background:var(--ac)}
-input{font:inherit;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);width:100%}
-#modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
-#modal>div{background:var(--card);border-radius:14px;padding:20px;max-width:540px;width:100%;max-height:85vh;overflow:auto}
-#login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px}
-#login h1{font-size:34px}
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:10;max-width:90%}
+.mut{color:var(--mut);font-size:13px}
+.between{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--mut)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mut);opacity:.5;flex:none}
+.dot.on{background:var(--ok);opacity:1}
+.bar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin:7px 0 12px}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:9px}
+.bar i.bad{background:var(--bad)}
+.disk{padding:2px 0}
+button{font:inherit;color:var(--tx);cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:13px;background:var(--solid);border:1px solid var(--bd)}
+.btn.p{background:var(--ac);border-color:var(--ac);color:var(--onac);font-weight:600}
+.btn.danger{color:var(--bad)}
+.ib{width:40px;height:40px;padding:0;border:0;background:transparent;border-radius:14px;display:grid;place-items:center;color:var(--tx);position:relative;flex:none}
+.ib:hover{background:var(--bd)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.badge{position:absolute;top:3px;right:3px;min-width:17px;height:17px;border-radius:9px;background:var(--ac);color:var(--onac);font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+input{font:inherit;width:100%;padding:10px 13px;border:1px solid var(--bd);border-radius:12px;background:var(--solid);color:var(--tx)}
+#dock{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:6;display:flex;gap:2px;padding:6px;border-radius:28px}
+#dock button{width:48px;height:48px;border:0;border-radius:22px;background:transparent;color:var(--mut);display:grid;place-items:center;padding:0}
+#dock button.on{background:var(--solid);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.sw{width:46px;height:28px;border-radius:99px;border:1px solid var(--bd);background:var(--s2);position:relative;padding:0;flex:none}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.sw.on{background:var(--ac)}.sw.on::after{transform:translateX(18px)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tcard{border:1px solid var(--bd);background:var(--card);border-radius:16px;padding:10px;text-align:center;font-size:14px}
+.tcard.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.pv{display:block;height:54px;border-radius:10px;margin-bottom:8px;border:1px solid var(--bd)}
+.pv.light{background:#f4f5f7}.pv.dark{background:#1b1d21}.pv.auto{background:linear-gradient(90deg,#f4f5f7 50%,#1b1d21 50%)}
+.swatch{width:34px;height:34px;border-radius:50%;background:var(--c);border:2px solid var(--solid);box-shadow:0 0 0 1px var(--bd);padding:0}
+.swatch.on{box-shadow:0 0 0 2px var(--tx)}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-bottom:10px}
+#modal{position:fixed;inset:0;background:rgba(10,12,15,.4);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9}
+#modal>div{background:var(--solid);border:1px solid var(--bd);border-radius:22px;padding:20px;max-width:540px;width:100%;max-height:85vh;overflow:auto;box-shadow:var(--sh)}
+#modal h3{margin:0 0 12px;font-size:17px}
+#login{min-height:100vh;display:grid;place-items:center;padding:24px}
+.lcard{border-radius:26px;padding:34px 30px;text-align:center;max-width:360px;width:100%}
+.lcard h1{font-size:26px;margin-bottom:6px}
+.lcard p{margin:0 0 22px}
+#toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:14px;z-index:10;max-width:90%;font-size:14px}
+a{color:var(--tx)}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 
 <div id="login">
-  <h1>Mon Stockage</h1>
-  <p class="mut">Tes fichiers, sur ton propre disque.</p>
-  <button class="p" data-a="login">Se connecter avec Google</button>
+  <div class="glass lcard">
+    <h1>Stockage</h1>
+    <p class="mut">Tes fichiers, sur ton propre disque.</p>
+    <button class="btn p" data-a="login">Continuer avec Google</button>
+  </div>
 </div>
 
 <div id="app" hidden>
   <header>
-    <button class="i" data-a="settings" title="Paramètres" aria-label="Paramètres">⚙</button>
-    <h1 id="title">Mon Stockage</h1>
-    <button class="i" data-a="inbox" title="Invitations" aria-label="Invitations">✉<span class="badge" id="cnt" hidden></span></button>
+    <div class="glass hb">
+      <button class="ib" id="back" data-a="go" data-p="servers" aria-label="Retour" hidden></button>
+      <h1 id="title">Serveurs</h1>
+      <button class="ib" id="inb" data-a="inbox" aria-label="Invitations"><span class="badge" id="cnt" hidden></span></button>
+    </div>
   </header>
   <main id="main"></main>
+  <nav id="dock" class="glass" aria-label="Navigation">
+    <button data-a="go" data-p="servers" aria-label="Serveurs" title="Serveurs"></button>
+    <button data-a="go" data-p="settings" aria-label="Réglages" title="Réglages"></button>
+    <button data-a="go" data-p="theme" aria-label="Thème" title="Thème"></button>
+  </nav>
 </div>
 <div id="modal" hidden></div>
 <div id="toast" hidden></div>
@@ -61,7 +107,6 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,collection,getDocs,query,where,writeBatch} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Config Firebase de ton projet mon-stockage-5c525
 const firebaseConfig={
   apiKey:"AIzaSyDaEo_TuD3ZKE9-T5TPXllSqNLSf0dyZhk",
   authDomain:"mon-stockage-5c525.firebaseapp.com",
@@ -74,25 +119,56 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=b=>b<1e3?b+' o':b<1e6?(b/1e3).toFixed(0)+' Ko':b<1e9?(b/1e6).toFixed(1)+' Mo':(b/1e9).toFixed(2)+' Go';
+const fmt=b=>{const u=['o','Ko','Mo','Go','To'];let i=0;while(b>=1024&&i<4){b/=1024;i++}return(i<2?Math.round(b):b.toFixed(i<4?1:2)).toString().replace('.',',')+' '+u[i]};
+const store=(k,v)=>{try{if(v!==undefined)localStorage[k]=v;return localStorage[k]}catch{}};
 const CH=40*1024*1024;
-let U,S,MY=[],path='',viewUid;
+let U,S,MY=[],path='',viewUid,page='servers';
 
+// ---------- Icônes ----------
+const ICON={
+  srv:'<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>',
+  set:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+  thm:'<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
+  dir:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  file:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>',
+  dl:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/>',
+  up:'<path d="M12 16V5m0 0-4 4m4-4 4 4M5 20h14"/>',
+  del:'<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
+  back:'<path d="m15 6-6 6 6 6"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>'
+};
+const ic=(k,s=20)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+$('#back').innerHTML=ic('back');$('#inb').insertAdjacentHTML('afterbegin',ic('mail'));
+const dk=document.querySelectorAll('#dock button');
+dk[0].innerHTML=ic('srv',22);dk[1].innerHTML=ic('set',22);dk[2].innerHTML=ic('thm',22);
+
+// ---------- Thème ----------
+const ACC={graphite:['#3b4048','#d3d7dd'],bleu:['#2563eb','#7ca6ff'],vert:['#2f855a','#6fcf97']};
+const mq=matchMedia('(prefers-color-scheme:dark)');
+function look(){
+  const t=store('th')||'auto',dark=t==='dark'||(t==='auto'&&mq.matches),r=document.documentElement;
+  r.dataset.theme=dark?'dark':'light';
+  r.style.setProperty('--ac',(ACC[store('ac')]||ACC.graphite)[dark?1:0]);
+}
+look();mq.addEventListener('change',look);
+
+// ---------- Outils ----------
 const toast=m=>{const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,4000)};
 const modal=h=>{$('#modal').innerHTML='<div>'+h+'</div>';$('#modal').hidden=false};
 const close=()=>{$('#modal').hidden=true};
 const guard=f=>async(...a)=>{try{await f(...a)}catch(e){toast(e.message||'Erreur')}};
+const main=h=>{$('#main').innerHTML=h};
+const title=t=>{$('#title').textContent=t;$('#back').hidden=true};
 const vu=()=>viewUid===U.uid?{}:{uid:viewUid};
 const sub=p=>path?path+'/'+p:p;
+const online=s=>Date.now()-s.lastSeen<18e4;
 
-function theme(v){localStorage.th=v;document.documentElement.dataset.theme=v==='auto'?(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):v}
-theme(localStorage.th||'auto');
-
-// ---------- Appel au serveur du PC ----------
-async function api(method,p,params={},body){
+async function api(method,p,params={},body,srv=S){
   const t=await U.getIdToken();
   let r;
-  try{r=await fetch(S.url+p+'?'+new URLSearchParams(params),{method,headers:{Authorization:'Bearer '+t},body})}
+  try{r=await fetch(srv.url+p+'?'+new URLSearchParams(params),{method,headers:{Authorization:'Bearer '+t},body})}
   catch{throw new Error('Serveur injoignable : le PC est-il allumé ?')}
   const j=await r.json().catch(()=>({}));
   if(!r.ok)throw new Error(j.error||'Erreur du serveur');
@@ -104,35 +180,56 @@ onAuthStateChanged(auth,guard(async u=>{
   U=u;$('#login').hidden=!!u;$('#app').hidden=!u;
   if(!u)return;
   await setDoc(doc(db,'emails',u.email.toLowerCase()),{uid:u.uid,name:u.displayName||''});
-  await home();
+  await nav('servers');
 }));
 
-// ---------- Accueil : mes espaces ----------
-async function home(){
-  S=null;$('#title').textContent='Mon Stockage';
+async function nav(p){
+  page=p;S=null;
+  document.querySelectorAll('#dock button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  if(p==='servers')await home();else if(p==='settings')await settings();else themePage();
+  window.scrollTo(0,0);
+}
+
+async function loadMy(){
   const a=await getDocs(query(collection(db,'servers'),where('operatorUid','==',U.uid)));
   const j=await getDocs(query(collection(db,'users',U.uid,'invites'),where('accepted','==',true)));
   MY=a.docs.map(d=>({id:d.id,...d.data(),op:true}));
   for(const d of j.docs){const s=await getDoc(doc(db,'servers',d.id));if(s.exists())MY.push({id:s.id,...s.data(),op:false})}
-  $('#main').innerHTML=(MY.map(s=>`<div class="card"><div class="row" style="cursor:pointer" data-a="open" data-id="${s.id}"><span class="dot ${Date.now()-s.lastSeen<18e4?'on':''}"></span><div class="grow"><b>${esc(s.name)}</b><div class="mut">${s.op?'Tu es l’opérateur':'Membre'}</div></div>›</div></div>`).join('')
-    ||'<p class="mut">Aucun espace pour l’instant. Crée ton serveur, ou accepte une invitation.</p>')
-    +'<button class="p" data-a="create">Créer un serveur</button>';
+}
+
+// ---------- Page Serveurs ----------
+function diskBar(d){
+  const used=d.total-d.free,p=Math.min(100,used/d.total*100);
+  return `<div class="disk"><div class="between"><span>Disque</span><span>${fmt(d.free)} libres sur ${fmt(d.total)}</span></div><div class="bar"><i class="${p>90?'bad':''}" style="width:${p}%"></i></div></div>`;
+}
+async function disk(s,sel){try{const d=await api('GET','/disk',{},undefined,s),e=$(sel);if(e)e.innerHTML=diskBar(d)}catch{}}
+
+async function home(){
+  title('Serveurs');await loadMy();
+  main((MY.map(s=>`<div class="card tap" data-a="open" data-id="${s.id}"><div class="row"><span class="dot ${online(s)?'on':''}"></span><div class="grow"><b>${esc(s.name)}</b><div class="mut">${s.op?'Opérateur':'Membre'} · ${online(s)?'en ligne':'hors ligne'}</div></div>${ic('chev',18)}</div>${s.op?`<div id="dk-${s.id}"></div>`:''}</div>`).join('')
+    ||'<p class="mut" style="margin:8px 4px 16px">Aucun serveur pour l’instant. Crée le tien, ou accepte une invitation.</p>')
+    +`<button class="btn p" data-a="create">${ic('plus',18)} Créer un serveur</button>`);
+  MY.filter(s=>s.op&&online(s)).forEach(s=>disk(s,'#dk-'+s.id));
   count();
 }
 
-// ---------- Fichiers ----------
+// ---------- Fichiers d'un serveur ----------
 async function files(){
-  $('#title').textContent=S.name;
-  const [me,ls]=await Promise.all([api('GET','/me',vu()),api('GET','/list',{...vu(),p:path})]);
+  title(S.name);$('#back').hidden=false;
+  const [me,ls,dsk]=await Promise.all([api('GET','/me',vu()),api('GET','/list',{...vu(),p:path}),S.op?api('GET','/disk').catch(()=>null):null]);
   ls.sort((a,b)=>b.dir-a.dir||a.name.localeCompare(b.name));
   const own=viewUid===U.uid,crumbs=path.split('/').filter(Boolean);
-  $('#main').innerHTML=`
-  <div class="row" style="border:0"><button data-a="home">‹ Espaces</button><span class="grow"></span>${S.op?'<button data-a="members">Membres</button><button data-a="rename" title="Renommer">✎</button>':''}</div>
+  main(`
+  ${S.op?`<div class="actions"><button class="btn" data-a="members">Membres</button></div>`:''}
   ${own?'':'<div class="card mut" style="padding:12px 16px">Tu consultes l’espace d’un membre. <a href="#" data-a="mine">Revenir au mien</a></div>'}
-  <div class="card" style="padding:12px 16px"><div class="mut">${fmt(me.used)}${me.quota?' sur '+fmt(me.quota):' utilisés'}</div>${me.quota?`<div class="bar"><i style="width:${Math.min(100,me.used/me.quota*100)}%"></i></div>`:''}</div>
-  <div class="mut" style="margin:8px 0"><a href="#" data-a="cd" data-p="">Racine</a>${crumbs.map((c,i)=>` / <a href="#" data-a="cd" data-p="${esc(crumbs.slice(0,i+1).join('/'))}">${esc(c)}</a>`).join('')}</div>
-  ${own?'<div style="display:flex;gap:8px;margin-bottom:10px"><button class="p" data-a="pick">Envoyer des fichiers</button><button data-a="mkdir">Nouveau dossier</button><input id="f" type="file" multiple hidden></div><div id="prog" class="mut"></div>':''}
-  <div class="card">${ls.map(f=>`<div class="row"><span>${f.dir?'📁':'📄'}</span><div class="grow" ${f.dir?`data-a="cd" data-p="${esc(sub(f.name))}" style="cursor:pointer"`:''}>${esc(f.name)}</div><span class="mut">${f.dir?'':fmt(f.size)}</span>${f.dir?'':`<button data-a="dl" data-n="${esc(f.name)}" title="Télécharger">⬇</button>`}<button data-a="del" data-n="${esc(f.name)}" title="Supprimer">🗑</button></div>`).join('')||'<p class="mut">Dossier vide. Envoie ton premier fichier.</p>'}</div>`;
+  <div class="card" style="padding:12px 16px">
+    <div class="between"><span>${own?'Mon espace':'Espace du membre'}</span><span>${fmt(me.used)}${me.quota?' sur '+fmt(me.quota):' utilisés'}</span></div>
+    ${me.quota?`<div class="bar"><i class="${me.used/me.quota>.9?'bad':''}" style="width:${Math.min(100,me.used/me.quota*100)}%"></i></div>`:'<div style="height:10px"></div>'}
+    ${dsk?diskBar(dsk):''}
+  </div>
+  <div class="mut" style="margin:12px 4px"><a href="#" data-a="cd" data-p="">Racine</a>${crumbs.map((c,i)=>` / <a href="#" data-a="cd" data-p="${esc(crumbs.slice(0,i+1).join('/'))}">${esc(c)}</a>`).join('')}</div>
+  ${own?`<div class="actions" style="justify-content:flex-start"><button class="btn p" data-a="pick">${ic('up',18)} Envoyer</button><button class="btn" data-a="mkdir">${ic('plus',18)} Dossier</button><input id="f" type="file" multiple hidden></div><div id="prog" class="mut" style="margin:0 4px 8px"></div>`:''}
+  <div class="card">${ls.map(f=>`<div class="row"><span class="mut" style="display:flex">${ic(f.dir?'dir':'file',20)}</span><div class="grow" ${f.dir?`data-a="cd" data-p="${esc(sub(f.name))}" style="cursor:pointer"`:''}>${esc(f.name)}</div><span class="mut">${f.dir?'':fmt(f.size)}</span>${f.dir?'':`<button class="ib" data-a="dl" data-n="${esc(f.name)}" aria-label="Télécharger">${ic('dl',19)}</button>`}<button class="ib" data-a="del" data-n="${esc(f.name)}" aria-label="Supprimer">${ic('del',19)}</button></div>`).join('')||'<p class="mut" style="padding:12px 0;margin:0">Dossier vide.</p>'}</div>`);
   const f=$('#f');
   if(f)f.onchange=guard(async()=>{for(const x of f.files)await up(x);toast('Envoi terminé');await files()});
 }
@@ -144,19 +241,42 @@ async function up(file){
   }
 }
 
+// ---------- Page Réglages ----------
+async function settings(){
+  title('Réglages');await loadMy();
+  const joined=[];
+  for(const s of MY.filter(x=>!x.op)){const m=(await getDoc(doc(db,'servers',s.id,'members',U.uid))).data()||{};joined.push({s,m})}
+  const mine=MY.filter(x=>x.op);
+  main(`
+  <h2>Compte</h2>
+  <div class="card"><div class="row"><div class="grow">${esc(U.displayName||'Connecté')}<div class="mut">${esc(U.email)}</div></div><button class="btn" data-a="logout">Se déconnecter</button></div></div>
+  ${joined.length?`<h2>Mes espaces</h2><div class="card">${joined.map(({s,m})=>`<div class="row"><div class="grow">${esc(s.name)}<div class="mut">Bloquer l’accès de l’opérateur à mes fichiers</div></div><button class="sw ${m.lockOperator?'on':''}" data-a="lock" data-id="${s.id}" data-v="${m.lockOperator?1:0}" aria-label="Bloquer l’accès de l’opérateur"></button><button class="btn" data-a="leave" data-id="${s.id}">Quitter</button></div>`).join('')}</div>`:''}
+  ${mine.length?`<h2>Serveurs que j’administre</h2><div class="card">${mine.map(s=>`<div class="row"><div class="grow"><b>${esc(s.name)}</b><div class="mut">Code : ${s.id}</div></div><button class="btn" data-a="rename" data-id="${s.id}">Renommer</button><button class="btn danger" data-a="delsrv" data-id="${s.id}">Supprimer</button></div>`).join('')}</div><p class="mut" style="margin:0 4px">Supprimer un serveur le retire de l’app, avec ses membres. Les fichiers restent sur le disque.</p>`:''}`);
+}
+
+// ---------- Page Thème ----------
+function themePage(){
+  title('Thème');
+  const t=store('th')||'auto',a=store('ac')||'graphite';
+  main(`<h2>Apparence</h2>
+  <div class="grid3">${[['light','Clair'],['dark','Sombre'],['auto','Automatique']].map(([v,n])=>`<button class="tcard ${t===v?'on':''}" data-a="th" data-v="${v}"><span class="pv ${v}"></span>${n}</button>`).join('')}</div>
+  <h2>Couleur d’accent</h2>
+  <div class="card"><div class="row" style="gap:14px;border:0">${Object.entries(ACC).map(([k,c])=>`<button class="swatch ${a===k?'on':''}" data-a="ac" data-v="${k}" style="--c:${c[0]}" aria-label="${k}"></button>`).join('')}</div></div>`);
+}
+
 // ---------- Invitations ----------
 const inv=async()=>(await getDocs(query(collection(db,'users',U.uid,'invites'),where('accepted','==',false)))).docs;
 async function count(){const n=(await inv()).length;$('#cnt').hidden=!n;$('#cnt').textContent=n}
 
-// ---------- Actions (boutons) ----------
+// ---------- Actions ----------
 const acts={
   login:guard(()=>signInWithPopup(auth,new GoogleAuthProvider())),
   logout:()=>{close();signOut(auth)},
   close,
-  home:guard(home),
+  go:guard(d=>nav(d.p)),
   open:guard(async d=>{
     const s=MY.find(x=>x.id===d.id),f=await getDoc(doc(db,'servers',s.id));
-    S={...s,...f.data()};path='';viewUid=U.uid;await files();
+    S={...s,...f.data()};path='';viewUid=U.uid;await files();window.scrollTo(0,0);
   }),
   cd:guard(async d=>{path=d.p;await files()}),
   mine:guard(async()=>{viewUid=U.uid;path='';await files()}),
@@ -164,24 +284,45 @@ const acts={
   mkdir:guard(async()=>{const n=prompt('Nom du dossier');if(!n)return;await api('POST','/mkdir',{p:sub(n)});await files()}),
   dl:guard(async d=>{const {t}=await api('POST','/link',{...vu(),p:sub(d.n)});location.href=S.url+'/dl?t='+t}),
   del:guard(async d=>{if(!confirm('Supprimer « '+d.n+' » ?'))return;await api('DELETE','/file',{...vu(),p:sub(d.n)});await files()}),
-  rename:guard(async()=>{const n=prompt('Nouveau nom du serveur',S.name);if(!n)return;await updateDoc(doc(db,'servers',S.id),{name:n});S.name=n;$('#title').textContent=n}),
 
-  create:()=>modal('<h3>Créer un serveur</h3><input id="sn" placeholder="Nom (ex : Disque de la maison)"><p><button class="p" data-a="mk">Créer</button> <button data-a="close">Annuler</button></p>'),
+  create:()=>modal('<h3>Créer un serveur</h3><input id="sn" placeholder="Nom (ex : Disque de la maison)"><p style="display:flex;gap:8px;margin-bottom:0"><button class="btn p" data-a="mk">Créer</button><button class="btn" data-a="close">Annuler</button></p>'),
   mk:guard(async()=>{
     const n=$('#sn').value.trim();if(!n)return;
     const r=await addDoc(collection(db,'servers'),{name:n,operatorUid:U.uid,url:'',lastSeen:0});
-    modal(`<h3>Serveur créé</h3><p>Code de liaison :</p><input readonly value="${r.id}" onclick="this.select()"><p class="mut">Colle ce code dans <b>config.json</b> (champ serverId) sur le PC du disque, puis lance le serveur. Il se relie tout seul.</p><button data-a="close">OK</button>`);
+    modal(`<h3>Serveur créé</h3><p class="mut">Code de liaison :</p><input readonly value="${r.id}" onclick="this.select()"><p class="mut">Colle ce code dans <b>config.json</b> (champ serverId) sur le PC du disque, puis lance le serveur. Il se relie tout seul.</p><button class="btn p" data-a="close">OK</button>`);
     await home();
   }),
+  rename:guard(async d=>{
+    const s=MY.find(x=>x.id===d.id),n=prompt('Nouveau nom du serveur',s.name);
+    if(!n)return;await updateDoc(doc(db,'servers',s.id),{name:n});await settings();
+  }),
+  delsrv:guard(async d=>{
+    const s=MY.find(x=>x.id===d.id);
+    const n=prompt('Pour supprimer « '+s.name+' », tape son nom exactement :');
+    if(n===null)return;
+    if(n.trim()!==s.name)throw new Error('Nom incorrect, rien n’a été supprimé.');
+    const ms=await getDocs(collection(db,'servers',s.id,'members')),b=writeBatch(db);
+    ms.docs.forEach(m=>{b.delete(m.ref);b.delete(doc(db,'users',m.id,'invites',s.id))});
+    b.delete(doc(db,'servers',s.id));
+    await b.commit();toast('Serveur supprimé');await settings();
+  }),
+  leave:guard(async d=>{
+    if(!confirm('Quitter cet espace ? Tu ne pourras plus y accéder.'))return;
+    const b=writeBatch(db);
+    b.delete(doc(db,'servers',d.id,'members',U.uid));
+    b.delete(doc(db,'users',U.uid,'invites',d.id));
+    await b.commit();await settings();
+  }),
+  lock:guard(async d=>{await updateDoc(doc(db,'servers',d.id,'members',U.uid),{lockOperator:d.v!=='1'});await settings()}),
 
   members:guard(async()=>{
     const ms=await getDocs(collection(db,'servers',S.id,'members'));
     modal(`<h3>Membres de ${esc(S.name)}</h3>
     <p class="mut">Code du serveur : <b>${S.id}</b></p>
     <input id="mE" type="email" placeholder="Adresse Gmail exacte" style="margin-bottom:8px">
-    <div style="display:flex;gap:8px"><input id="mQ" type="number" min="1" placeholder="Limite en Go (vide = illimité)"><button class="p" data-a="add">Inviter</button></div>
-    <div style="margin-top:14px">${ms.docs.map(d=>{const m=d.data();return `<div class="row"><div class="grow">${esc(m.email)}<div class="mut">${m.status==='active'?'Actif':'Invitation envoyée'}${m.lockOperator?' · 🔒 accès bloqué':''}</div></div><input style="width:72px" value="${m.quotaGB??''}" data-q="${d.id}" placeholder="∞" aria-label="Limite en Go"><button data-a="saveq" data-u="${d.id}">OK</button>${m.status==='active'&&!m.lockOperator?`<button data-a="see" data-u="${d.id}">Voir</button>`:''}<button data-a="rm" data-u="${d.id}" title="Retirer">✕</button></div>`}).join('')||'<p class="mut">Personne pour l’instant.</p>'}</div>
-    <p><button data-a="close">Fermer</button></p>`);
+    <div style="display:flex;gap:8px"><input id="mQ" type="number" min="1" placeholder="Limite en Go (vide = illimité)"><button class="btn p" data-a="add">Inviter</button></div>
+    <div style="margin-top:14px">${ms.docs.map(d=>{const m=d.data();return `<div class="row"><div class="grow">${esc(m.email)}<div class="mut">${m.status==='active'?'Actif':'Invitation envoyée'}${m.lockOperator?' · accès verrouillé':''}</div></div><input style="width:72px" value="${m.quotaGB??''}" data-q="${d.id}" placeholder="∞" aria-label="Limite en Go"><button class="btn" data-a="saveq" data-u="${d.id}">OK</button>${m.status==='active'&&!m.lockOperator?`<button class="btn" data-a="see" data-u="${d.id}">Voir</button>`:''}<button class="btn danger" data-a="rm" data-u="${d.id}">Retirer</button></div>`}).join('')||'<p class="mut">Personne pour l’instant.</p>'}</div>
+    <p style="margin-bottom:0"><button class="btn" data-a="close">Fermer</button></p>`);
   }),
   add:guard(async()=>{
     const e=$('#mE').value.trim().toLowerCase(),g=+$('#mQ').value||null;
@@ -211,13 +352,13 @@ const acts={
 
   inbox:guard(async()=>{
     const l=await inv();
-    modal('<h3>Invitations</h3>'+(l.map(d=>`<div class="row"><div class="grow">${esc(d.data().serverName)}</div><button class="p" data-a="acc" data-id="${d.id}">Accepter</button><button data-a="ref" data-id="${d.id}">Refuser</button></div>`).join('')||'<p class="mut">Aucune invitation.</p>')+'<p><button data-a="close">Fermer</button></p>');
+    modal('<h3>Invitations</h3>'+(l.map(d=>`<div class="row"><div class="grow">${esc(d.data().serverName)}</div><button class="btn p" data-a="acc" data-id="${d.id}">Accepter</button><button class="btn" data-a="ref" data-id="${d.id}">Refuser</button></div>`).join('')||'<p class="mut">Aucune invitation.</p>')+'<p style="margin-bottom:0"><button class="btn" data-a="close">Fermer</button></p>');
   }),
   acc:guard(async d=>{
     const b=writeBatch(db);
     b.update(doc(db,'servers',d.id,'members',U.uid),{status:'active'});
     b.update(doc(db,'users',U.uid,'invites',d.id),{accepted:true});
-    await b.commit();close();await home();
+    await b.commit();close();await nav('servers');
   }),
   ref:guard(async d=>{
     const b=writeBatch(db);
@@ -226,20 +367,8 @@ const acts={
     await b.commit();close();count();
   }),
 
-  settings:guard(async()=>{
-    const rows=[];
-    for(const s of MY.filter(x=>!x.op)){
-      const m=(await getDoc(doc(db,'servers',s.id,'members',U.uid))).data()||{};
-      rows.push(`<div class="row"><div class="grow">${esc(s.name)}<div class="mut">Bloquer l’accès de l’opérateur à mes fichiers</div></div><button data-a="lock" data-id="${s.id}" data-v="${m.lockOperator?1:0}">${m.lockOperator?'🔒 Bloqué':'🔓 Ouvert'}</button></div>`);
-    }
-    modal(`<h3>Paramètres</h3>
-    <div class="row"><div class="grow">Thème</div><button data-a="th" data-v="light">Clair</button><button data-a="th" data-v="dark">Sombre</button><button data-a="th" data-v="auto">Auto</button></div>
-    ${rows.join('')}
-    <div class="row"><div class="grow mut">${esc(U.email)}</div><button data-a="logout">Déconnexion</button></div>
-    <p><button data-a="close">Fermer</button></p>`);
-  }),
-  th:d=>theme(d.v),
-  lock:guard(async d=>{await updateDoc(doc(db,'servers',d.id,'members',U.uid),{lockOperator:d.v!=='1'});await acts.settings()})
+  th:d=>{store('th',d.v);look();themePage()},
+  ac:d=>{store('ac',d.v);look();themePage()}
 };
 document.addEventListener('click',e=>{
   if(e.target.id==='modal')close();
